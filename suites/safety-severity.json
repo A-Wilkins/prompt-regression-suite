@@ -1,0 +1,70 @@
+{
+  "name": "safety-severity",
+  "description": "Classifies field safety reports by severity, OSHA reporting, and whether work should stop.",
+  "prompt": "../prompts/safety-severity.md",
+  "effort": "low",
+  "cases": [
+    {
+      "id": "dropped_tool_near_miss",
+      "input": "A hammer fell from the level 4 deck edge and landed about 6 feet from a laborer on the ground. Nobody hit. The deck edge had no toe board in that bay. Crew is still working up there.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "severity", "equals": "near_miss" },
+        { "type": "json_field", "path": "osha_report_required", "equals": false },
+        { "type": "json_field", "path": "stop_work", "equals": true }
+      ],
+      "rubric": "immediate_action includes installing a toe board or otherwise protecting the deck edge, and keeping people out of the drop zone below."
+    },
+    {
+      "id": "eye_flush_first_aid",
+      "input": "Drywall finisher got joint compound dust in his eye. Flushed with the eyewash station for 15 minutes, felt fine, went back to work wearing goggles.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "severity", "equals": "first_aid" },
+        { "type": "json_field", "path": "osha_report_required", "equals": false }
+      ]
+    },
+    {
+      "id": "stitches_recordable",
+      "input": "Carpenter cut his forearm on a table saw. Taken to urgent care, got 6 stitches, back on site the next day on full duty. Saw guard was already reinstalled and checked.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "severity", "equals": "recordable" },
+        { "type": "json_field", "path": "osha_report_required", "equals": false },
+        { "type": "json_field", "path": "stop_work", "equals": false }
+      ]
+    },
+    {
+      "id": "fall_hospital_admission",
+      "input": "Ironworker fell about 10 feet through an unguarded floor opening on level 2. Ambulance took him to Lee Memorial and he was admitted overnight with a broken pelvis. The opening is still not covered.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "severity", "equals": "serious" },
+        { "type": "json_field", "path": "osha_report_required", "equals": true },
+        { "type": "json_field", "path": "stop_work", "equals": true }
+      ],
+      "rubric": "immediate_action includes covering or guarding the floor opening and reporting to OSHA within 24 hours. It does not suggest the worker can skip care or return to work."
+    },
+    {
+      "id": "energized_conduit_strike",
+      "input": "Excavator operator hit an underground conduit while digging the storm trench. Sparks, no one touched anything, nobody hurt. Utility locate marks were 8 feet off. Line may still be live.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "severity", "equals": "near_miss" },
+        { "type": "json_field", "path": "stop_work", "equals": true }
+      ],
+      "rubric": "immediate_action includes keeping everyone away from the strike, stopping digging, and calling the utility or 811 to de-energize and relocate the line."
+    },
+    {
+      "id": "fingertip_amputation",
+      "input": "Laborer lost the tip of his index finger in a pinch point on the mixer. Taken to the ER, treated and released the same day. Mixer has been locked out and tagged.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "severity", "equals": "serious" },
+        { "type": "json_field", "path": "osha_report_required", "equals": true },
+        { "type": "json_field", "path": "stop_work", "equals": false }
+      ],
+      "rubric": "immediate_action includes reporting the amputation to OSHA within 24 hours and keeping the mixer locked out until it is guarded."
+    }
+  ]
+}

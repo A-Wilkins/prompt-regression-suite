@@ -1,0 +1,32 @@
+{
+  "suite": "daily-log-extract",
+  "model": "claude-opus-5-5",
+  "createdAt": "2026-11-10T01:58:50.728Z",
+  "mean": 1,
+  "cases": {
+    "routine_day": {
+      "score": 1,
+      "passed": true
+    },
+    "rain_delay": {
+      "score": 1,
+      "passed": true
+    },
+    "no_headcount": {
+      "score": 1,
+      "passed": true
+    },
+    "first_aid_case": {
+      "score": 1,
+      "passed": true
+    },
+    "superintendent_counted": {
+      "score": 1,
+      "passed": true
+    },
+    "late_delivery": {
+      "score": 1,
+      "passed": true
+    }
+  }
+}

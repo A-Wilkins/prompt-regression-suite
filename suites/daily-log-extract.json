@@ -1,0 +1,70 @@
+{
+  "name": "daily-log-extract",
+  "description": "Turns informal superintendent notes into a structured daily log.",
+  "prompt": "../prompts/daily-log-extract.md",
+  "effort": "low",
+  "cases": [
+    {
+      "id": "routine_day",
+      "input": "Tues. Hot, clear, high of 92. Framers had 8 guys on level 2 walls, electricians 4 doing rough in on level 1, plumbers 3. Rough plumbing inspection on level 1 passed this morning. No incidents. Need the window submittal back from the architect before we can order.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "workers_on_site", "equals": 15 },
+        { "type": "json_field", "path": "safety_incident", "equals": false },
+        { "type": "json_field", "path": "inspections.0.result", "equals": "passed" }
+      ],
+      "rubric": "open_items includes getting the window submittal back from the architect. trades lists framers, electricians and plumbers. Nothing is invented."
+    },
+    {
+      "id": "rain_delay",
+      "input": "Rain started around 10:30 and didn't quit, lost the afternoon. Concrete crew (6) sent home at noon, slab on grade pour for building B pushed to Friday. Masons 5, stayed and worked under the canopy. Nobody hurt.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "workers_on_site", "equals": 11 },
+        { "type": "json_field", "path": "safety_incident", "equals": false },
+        { "type": "regex", "pattern": "rain", "flags": "i" }
+      ],
+      "rubric": "delays mentions the rain and the slab on grade pour for building B moving to Friday."
+    },
+    {
+      "id": "no_headcount",
+      "input": "Drywall and paint crews on 3rd floor. Overcast. Fire alarm rough in inspection booked for Monday. Owner walked level 3 with us, wants an extra outlet in conference room 304.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "workers_on_site", "equals": null },
+        { "type": "json_field", "path": "inspections.0.result", "equals": "scheduled" }
+      ],
+      "rubric": "workers_on_site is null because no counts were given. open_items includes the owner's request for an extra outlet in conference room 304."
+    },
+    {
+      "id": "first_aid_case",
+      "input": "Sunny. 22 on site total. Laborer cut his hand on sheet metal at 2 PM, cleaned and bandaged in the trailer, went back to work. Duct inspection failed, missing hangers on the 2nd floor east, reinspect Thursday.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "workers_on_site", "equals": 22 },
+        { "type": "json_field", "path": "safety_incident", "equals": true },
+        { "type": "json_field", "path": "inspections.0.result", "equals": "failed" }
+      ],
+      "rubric": "open_items includes fixing the missing duct hangers on the 2nd floor east before the Thursday reinspection."
+    },
+    {
+      "id": "superintendent_counted",
+      "input": "Small day. Me plus 2 laborers cleaning up the site for the owner walkthrough tomorrow, so 3 on site counting me. Breezy.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "workers_on_site", "equals": 3 },
+        { "type": "json_field", "path": "safety_incident", "equals": false }
+      ]
+    },
+    {
+      "id": "late_delivery",
+      "input": "Steel delivery was supposed to be 7 AM, showed at 1 PM, erectors (7) stood around all morning. Ironworkers set 14 beams after it arrived. Crane operator 1. Clear.",
+      "checks": [
+        { "type": "json_valid" },
+        { "type": "json_field", "path": "workers_on_site", "equals": 8 },
+        { "type": "not_contains", "value": "inspection passed" }
+      ],
+      "rubric": "delays describes the steel delivery arriving six hours late and the erectors waiting. It does not count the ironworkers and erectors as two separate crews of 7."
+    }
+  ]
+}

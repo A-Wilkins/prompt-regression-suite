@@ -1,0 +1,36 @@
+{
+  "suite": "rfi-triage",
+  "model": "claude-opus-5-5",
+  "createdAt": "2026-11-10T01:58:59.131Z",
+  "mean": 0.982,
+  "cases": {
+    "pour_blocked_rebar_conflict": {
+      "score": 1,
+      "passed": true
+    },
+    "paint_color_clarification": {
+      "score": 1,
+      "passed": true
+    },
+    "sprinkler_main_vs_duct": {
+      "score": 1,
+      "passed": true
+    },
+    "energized_panel_question": {
+      "score": 1,
+      "passed": true
+    },
+    "storm_inlet_elevation": {
+      "score": 1,
+      "passed": true
+    },
+    "rtu_curb_size": {
+      "score": 0.875,
+      "passed": true
+    },
+    "vague_rfi": {
+      "score": 1,
+      "passed": true
+    }
+  }
+}

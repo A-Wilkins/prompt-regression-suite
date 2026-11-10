@@ -1,0 +1,32 @@
+{
+  "suite": "safety-severity",
+  "model": "claude-opus-5-5",
+  "createdAt": "2026-11-10T01:59:06.113Z",
+  "mean": 1,
+  "cases": {
+    "dropped_tool_near_miss": {
+      "score": 1,
+      "passed": true
+    },
+    "eye_flush_first_aid": {
+      "score": 1,
+      "passed": true
+    },
+    "stitches_recordable": {
+      "score": 1,
+      "passed": true
+    },
+    "fall_hospital_admission": {
+      "score": 1,
+      "passed": true
+    },
+    "energized_conduit_strike": {
+      "score": 1,
+      "passed": true
+    },
+    "fingertip_amputation": {
+      "score": 1,
+      "passed": true
+    }
+  }
+}

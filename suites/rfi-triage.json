@@ -1,0 +1,165 @@
+{
+  "name": "rfi-triage",
+  "description": "Classifies RFIs by priority, discipline, and schedule impact, with a one sentence summary.",
+  "prompt": "../prompts/rfi-triage.md",
+  "effort": "low",
+  "cases": [
+    {
+      "id": "pour_blocked_rebar_conflict",
+      "input": "RFI from Gulf Concrete: Level 3 deck pour is scheduled for Thursday 6 AM. Embed plate EP-14 on S-301 lands directly on top of the #6 top bars at gridline C/4. We cannot place the plate without cutting rebar. Need direction from the structural engineer before we can finish rebar inspection Wednesday.",
+      "checks": [
+        {
+          "type": "json_valid"
+        },
+        {
+          "type": "json_field",
+          "path": "priority",
+          "equals": "urgent"
+        },
+        {
+          "type": "json_field",
+          "path": "discipline",
+          "equals": "structural"
+        },
+        {
+          "type": "json_field",
+          "path": "schedule_impact",
+          "equals": true
+        },
+        {
+          "type": "regex",
+          "pattern": "EP-14|embed",
+          "flags": "i"
+        }
+      ],
+      "rubric": "The summary names the embed plate conflict with the rebar and that the Thursday pour or Wednesday inspection depends on the answer. It does not invent a solution."
+    },
+    {
+      "id": "paint_color_clarification",
+      "input": "RFI from Coastal Painting: Finish schedule A-601 lists PT-3 for the second floor corridors but the color is not in the paint legend. Corridor painting is planned for about six weeks from now. Please confirm the manufacturer and color for PT-3.",
+      "checks": [
+        {
+          "type": "json_valid"
+        },
+        {
+          "type": "json_field",
+          "path": "priority",
+          "equals": "low"
+        },
+        {
+          "type": "json_field",
+          "path": "discipline",
+          "equals": "architectural"
+        },
+        {
+          "type": "json_field",
+          "path": "schedule_impact",
+          "equals": false
+        }
+      ]
+    },
+    {
+      "id": "sprinkler_main_vs_duct",
+      "input": "RFI from Bay Fire Protection: In the level 2 east wing, the 4 inch sprinkler main on FP-201 runs at the same elevation as the 24x14 supply duct shown on M-201 between gridlines 7 and 9. We are installing mains in that area next week. Which one moves?",
+      "checks": [
+        {
+          "type": "json_valid"
+        },
+        {
+          "type": "json_field",
+          "path": "priority",
+          "equals": "normal"
+        },
+        {
+          "type": "json_field",
+          "path": "discipline",
+          "equals": "plumbing"
+        }
+      ],
+      "rubric": "The summary describes a clash between the sprinkler main and the supply duct and asks which one is relocated."
+    },
+    {
+      "id": "energized_panel_question",
+      "input": "RFI from Sunline Electric: Existing panel LP-2A in the renovated wing is still energized and is not shown on the demo plans E-001. Our demo crew is working next to it today and stopped. Is LP-2A to be removed, relocated, or kept, and who de-energizes it?",
+      "checks": [
+        {
+          "type": "json_valid"
+        },
+        {
+          "type": "json_field",
+          "path": "priority",
+          "equals": "urgent"
+        },
+        {
+          "type": "json_field",
+          "path": "discipline",
+          "equals": "electrical"
+        },
+        {
+          "type": "json_field",
+          "path": "schedule_impact",
+          "equals": true
+        }
+      ]
+    },
+    {
+      "id": "storm_inlet_elevation",
+      "input": "RFI from Ridge Sitework: Civil sheet C-401 shows storm inlet CB-6 with a rim of 12.40 but the grading plan C-201 shows finished grade of 12.85 at that spot. Paving is three weeks out. Which elevation governs?",
+      "checks": [
+        {
+          "type": "json_valid"
+        },
+        {
+          "type": "json_field",
+          "path": "discipline",
+          "equals": "civil"
+        },
+        {
+          "type": "regex",
+          "pattern": "CB-6|inlet",
+          "flags": "i"
+        }
+      ]
+    },
+    {
+      "id": "rtu_curb_size",
+      "input": "RFI from Precision Mechanical: RTU-2 was resubmitted as a different model with a larger footprint. The roof curb on S-501 is detailed for the old unit. The RTU is being delivered tomorrow morning and the crane is booked for the lift. Need the structural engineer and mechanical engineer to confirm the curb and framing for the new unit.",
+      "checks": [
+        {
+          "type": "json_valid"
+        },
+        {
+          "type": "json_field",
+          "path": "priority",
+          "equals": "urgent"
+        },
+        {
+          "type": "json_field",
+          "path": "schedule_impact",
+          "equals": true
+        }
+      ],
+      "rubric": "The summary says the new RTU-2 model does not fit the curb detailed for the old unit, and that tomorrow's delivery and crane lift depend on the answer."
+    },
+    {
+      "id": "vague_rfi",
+      "input": "RFI from site: door hardware doesn't match. please advise",
+      "checks": [
+        {
+          "type": "json_valid"
+        },
+        {
+          "type": "json_field",
+          "path": "discipline",
+          "equals": "architectural"
+        },
+        {
+          "type": "json_field",
+          "path": "schedule_impact",
+          "equals": false
+        }
+      ],
+      "rubric": "The summary says the RFI is missing details, such as which doors, which hardware, and what it does not match. It does not invent door numbers or hardware types."
+    }
+  ]
+}
